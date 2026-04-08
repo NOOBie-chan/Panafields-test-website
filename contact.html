@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <form action="" id="contact-form" class="contact">
+        <form action="" id="contact-form" class="contact" onsubmit="sendMail(event)">
             <p class="tact">Contact Us</p>
             <div class="q1">
                 <p>Name</p>
@@ -168,11 +168,16 @@
                 <p>Message</p>
                 <textarea id="message" name="message" placeholder="Type Here..." class="contact-inputs q5" required></textarea>
             </div>
-            <div class="cf-turnstile contact-inputs q6" data-sitekey="0x4AAAAAAC1Uw3GnQrrc8Qms"></div>
+            <div class="cf-turnstile contact-inputs q6" data-sitekey="0x4AAAAAAC1Uw3GnQrrc8Qms" data-callback="captchaSuccess" data-expired-callback="captchaExpired"></div>
             <!-- Bot Trap Code -->
             <input type="text" name="website" id="website" style="position:absolute; left:-9999px;" autocomplete="off">
-                <button type="submit"> Submit</button>
+            <button type="submit"> Submit</button>
         </form>
+        <script>
+            (function() {
+                emailjs.init("O36tGYSsch_6D37XK");
+            })();
+        </script>
     </section>
 
     <footer>
@@ -206,54 +211,55 @@
         <div class="right"> &copy; 2026 Pan African Field Services Limited. All Rights Reserved.</div>
     </footer>
     <script>
-emailjs.init("O36tGYSsch_6D37XK");
+        let captchaToken = "";
 
-const form = document.getElementById("contact-form");
-
-form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const token = document.querySelector(
-        "textarea[name='cf-turnstile-response']"
-    )?.value;
-
-    if (!token || token.trim() === "") {
-        alert("Please complete the captcha first.");
-        return;
-    }
-
-    try {
-        const verifyResponse = await fetch("/.netlify/functions/verifyCaptcha", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "cf-turnstile-response": token
-            })
-        });
-
-        const verifyResult = await verifyResponse.json();
-
-        if (!verifyResponse.ok) {
-            alert("Captcha verification failed.");
-            return;
+        // Called automatically by Cloudflare Turnstile after successful verification
+        function captchaSuccess(token) {
+            captchaToken = token;
+            console.log("Captcha verified");
         }
 
-        await emailjs.sendForm(
-            "service_vb4oklp",
-            "template_4km6hlw",
-            form
-        );
+        // Optional: if captcha expires
+        function captchaExpired() {
+            captchaToken = "";
+            console.log("Captcha expired");
+        }
 
-        alert("Message sent successfully!");
-        form.reset();
+        // Submit form with EmailJS
+        function sendMail(event) {
+            event.preventDefault();
 
-    } catch (error) {
-        console.error("Submission error:", error);
-        alert("Something went wrong. Please try again.");
-    }
-});
-</script>
+            if (!captchaToken) {
+                alert("Please complete captcha");
+                return;
+            }
+
+            const params = {
+                from_name: document.getElementById("name").value,
+                from_email: document.getElementById("email").value,
+                from_title: document.getElementById("title").value,
+                message: document.getElementById("message").value,
+                captcha_token: captchaToken
+            };
+
+            emailjs.send(
+                "service_vb4oklp",
+                "template_4km6hlw",
+                params
+            )
+            .then(function(response) {
+                alert("Message sent successfully!");
+                document.getElementById("contactForm").reset();
+                captchaToken = "";
+
+                // Reset captcha widget after successful submit
+                turnstile.reset();
+            })
+            .catch(function(error) {
+                alert("Failed to send message");
+                console.error(error);
+            });
+        }
+    </script>
 </body>
 </html>
