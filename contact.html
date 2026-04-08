@@ -29,7 +29,7 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://www.panafields.com/image/logo.webp">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico?v=2">
 </head>
 <body>
     <header>
@@ -171,7 +171,7 @@
             <div class="cf-turnstile contact-inputs q6" data-sitekey="0x4AAAAAAC1Uw3GnQrrc8Qms" data-callback="captchaSuccess" data-expired-callback="captchaExpired"></div>
             <!-- Bot Trap Code -->
             <input type="text" name="website" id="website" style="position:absolute; left:-9999px;" autocomplete="off">
-            <button type="submit"> Submit</button>
+            <button type="submit" class="submitBtn"> Submit</button>
         </form>
         <script>
             (function() {
@@ -259,8 +259,9 @@
                 alert("Failed to send message");
                 console.error(error);
             });
-            const button = document.querySelector('button[type="submit"]');
+            const button = document.querySelector('.submitBtn');
             button.disabled = true;
+            button.style.display = "none";
         }
     </script>
 </body>
