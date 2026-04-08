@@ -249,7 +249,7 @@
             )
             .then(function(response) {
                 alert("Message sent successfully!");
-                document.getElementById("contactForm").reset();
+                document.getElementById("contact-form").reset();
                 captchaToken = "";
 
                 // Reset captcha widget after successful submit
@@ -259,6 +259,8 @@
                 alert("Failed to send message");
                 console.error(error);
             });
+            const button = document.querySelector('button[type="submit"]');
+            button.disabled = true;
         }
     </script>
 </body>
