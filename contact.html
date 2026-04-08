@@ -214,95 +214,94 @@
     <script>
         let captchaToken = "";
 
-        // Called automatically by Cloudflare Turnstile after successful verification
         function captchaSuccess(token) {
             captchaToken = token;
             console.log("Captcha verified");
         }
 
-        // Optional: if captcha expires
         function captchaExpired() {
             captchaToken = "";
             console.log("Captcha expired");
         }
 
-        // Submit form with EmailJS
+        function isValidEmail(email) {
+            return email.includes("@") && email.includes(".");
+        }
+
         function sendMail(event) {
             event.preventDefault();
 
-            if (!captchaToken) {
-                alert("Please complete captcha");
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const title = document.getElementById("title").value.trim();
+            const message = document.getElementById("message").value.trim();
+            const button = document.querySelector('.submitBtn');
+            const status = document.getElementById("form-status");
+
+            // Reset status message color
+            status.style.color = "green";
+
+            // Validation
+            if (!name || !email || !title || !message) {
+                status.style.display = "block";
+                status.style.color = "red";
+                status.textContent = "⚠️ Please fill in all fields.";
                 return;
             }
 
-            const params = {
-                from_name: document.getElementById("name").value,
-                from_email: document.getElementById("email").value,
-                from_title: document.getElementById("title").value,
-                message: document.getElementById("message").value,
+            if (!isValidEmail(email)) {
+                status.style.display = "block";
+                status.style.color = "red";
+                status.textContent = "⚠️ Please enter a valid email address.";
+                return;
+            }
+
+            if (message.length < 10) {
+                status.style.display = "block";
+                status.style.color = "red";
+                status.textContent = "⚠️ Message is too short.";
+                return;
+            }
+
+            if (!captchaToken) {
+                status.style.display = "block";
+                status.style.color = "red";
+                status.textContent = "⚠️ Please complete captcha.";
+                return;
+            }
+
+            // Disable button while sending
+            button.disabled = true;
+            button.textContent = "Sending...";
+
+            // Send Email
+            emailjs.send("service_vb4oklp", "template_4km6hlw", {
+                from_name: name,
+                from_email: email,
+                from_title: title,
+                message: message,
                 captcha_token: captchaToken
-            };
-
-            function isValidEmail(email) {
-                // Basic check: contains @ and a dot
-                return email.includes("@") && email.includes(".");
-            }
-
-            function sendMail(event) {
-                event.preventDefault();
-
-                const name = document.getElementById("name").value.trim();
-                const email = document.getElementById("email").value.trim();
-                const title = document.getElementById("title").value.trim();
-                const message = document.getElementById("message").value.trim();
-
-                if (!name || !email || !title || !message) {
-                    return alert("Please fill in all fields.");
-                }
-
-                if (!isValidEmail(email)) {
-                    return alert("Please enter a valid email address.");
-                }
-
-                if (message.length < 10) {
-                    return alert("Message is too short.");
-                }
-
-                if (message.length > 2000) {
-                    return alert("Message is too long.");
-                }
-            }
-
-            emailjs.send(
-                "service_vb4oklp",
-                "template_4km6hlw",
-                params
-            )
+            })
             .then(function(response) {
-                alert("Message sent successfully!");
+                status.style.display = "block";
+                status.style.color = "green";
+                status.textContent = "✅ Message sent successfully!";
                 document.getElementById("contact-form").reset();
                 captchaToken = "";
-
-                // Reset captcha widget after successful submit
                 turnstile.reset();
-                const status = document.getElementById("form-status");
-                status.style.display = "block";
-                status.textContent = "✅ Message sent successfully!";
-
-                setTimeout(() => {
-                    status.style.display = "none"; // hides message after 5 seconds
-                }, 5000);
+                button.disabled = false;
+                button.textContent = "Submit";
+                // Hide status after 5s
+                setTimeout(() => status.style.display = "none", 5000);
             })
             .catch(function(error) {
-                alert("Failed to send message");
                 console.error(error);
                 status.style.display = "block";
                 status.style.color = "red";
                 status.textContent = "❌ Failed to send message. Try again.";
+                button.disabled = false;
+                button.textContent = "Submit";
             });
-            const button = document.querySelector('.submitBtn');
-            button.disabled = true;
-            button.style.display = "none";
         }
     </script>
 </body>
