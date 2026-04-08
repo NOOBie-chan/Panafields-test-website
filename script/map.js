@@ -31,14 +31,18 @@ countries.forEach(country => {
 });
 
 const tooltip = document.getElementById('tooltip');
-countries.forEach(country => {
-    country.addEventListener('mousemove', e => {
-        tooltip.style.left = e.pageX + 15 + 'px';
-        tooltip.style.top = e.pageY + 15 + 'px';
-        tooltip.innerText = country.dataset.name || country.id;
-        tooltip.style.display = 'block';
+
+if (tooltip) {
+    countries.forEach(country => {
+        country.addEventListener('mousemove', e => {
+            tooltip.style.left = `${e.pageX + 15}px`;
+            tooltip.style.top = `${e.pageY + 15}px`;
+            tooltip.textContent = country.dataset.name || country.id;
+            tooltip.style.display = 'block';
+        });
+
+        country.addEventListener('mouseleave', () => {
+            tooltip.style.display = 'none';
+        });
     });
-    country.addEventListener('mouseleave', () => {
-        tooltip.style.display = 'none';
-    });
-});
+}
