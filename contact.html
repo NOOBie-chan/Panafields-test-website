@@ -172,6 +172,7 @@
             <!-- Bot Trap Code -->
             <input type="text" name="website" id="website" style="position:absolute; left:-9999px;" autocomplete="off">
             <button type="submit" class="submitBtn"> Submit</button>
+            <p id="form-status" style="display:none; color: green; font-weight: bold;"></p>
         </form>
         <script>
             (function() {
@@ -242,6 +243,36 @@
                 captcha_token: captchaToken
             };
 
+            function isValidEmail(email) {
+                // Basic check: contains @ and a dot
+                return email.includes("@") && email.includes(".");
+            }
+
+            function sendMail(event) {
+                event.preventDefault();
+
+                const name = document.getElementById("name").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const title = document.getElementById("title").value.trim();
+                const message = document.getElementById("message").value.trim();
+
+                if (!name || !email || !title || !message) {
+                    return alert("Please fill in all fields.");
+                }
+
+                if (!isValidEmail(email)) {
+                    return alert("Please enter a valid email address.");
+                }
+
+                if (message.length < 10) {
+                    return alert("Message is too short.");
+                }
+
+                if (message.length > 2000) {
+                    return alert("Message is too long.");
+                }
+            }
+
             emailjs.send(
                 "service_vb4oklp",
                 "template_4km6hlw",
@@ -254,10 +285,20 @@
 
                 // Reset captcha widget after successful submit
                 turnstile.reset();
+                const status = document.getElementById("form-status");
+                status.style.display = "block";
+                status.textContent = "✅ Message sent successfully!";
+
+                setTimeout(() => {
+                    status.style.display = "none"; // hides message after 5 seconds
+                }, 5000);
             })
             .catch(function(error) {
                 alert("Failed to send message");
                 console.error(error);
+                status.style.display = "block";
+                status.style.color = "red";
+                status.textContent = "❌ Failed to send message. Try again.";
             });
             const button = document.querySelector('.submitBtn');
             button.disabled = true;
