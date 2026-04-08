@@ -301,6 +301,10 @@
                 status.textContent = "❌ Failed to send message. Try again.";
                 button.disabled = false;
                 button.textContent = "Submit";
+                
+                setTimeout(() => {
+                    button.style.display = "none";
+                }, 5000);
             });
         }
     </script>
