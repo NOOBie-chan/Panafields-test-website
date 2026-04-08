@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles/style3.css">
+    <link rel="stylesheet" href="styles/header & footer.css">
+    <script src="script/observer.js"></script>
+    <script src="script/on-click.js"></script>
+    <!-- Cloudfare Turnstile Form Security -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- EmailJS Link -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <title>Contact Us - Pan African Field Services Ltd.</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get in touch with Panafields for market research, consulting, or business solutions.">
+    <meta name="keywords" content="Panafields, market research, business solutions, customer surveys, data collection">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.panafields.com/contact.html">
+    <!-- Open Graph (for social sharing) -->
+    <meta property="og:title" content="Panafields | Contact">
+    <meta property="og:description" content="Get in touch with Panafields for market research, consulting, or business solutions.">
+    <meta property="og:url" content="https://www.panafields.com/contact.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.panafields.com/image/logo.webp">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <header>
+        <ul class="sidebar">
+            <li onclick="hideSidebar()"><a href="#"><i class="fas fa-x"></i></a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html#services">Services</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+        <ul class="header">
+            <li><img  loading="lazy" src="image/logo.webp" alt="Panafields' Logo"></li>
+            <li class="hideOnMobile"><a href="index.html">Home</a></li>
+            <li class="hideOnMobile"><a href="about.html#services">Services</a></li>
+            <li class="hideOnMobile"><a href="about.html">About</a></li>
+            <li class="hideOnMobile"><a href="">Contact</a></li>
+            <li class="bars" onclick="showSidebar()"><a href="#"><i class="fas fa-bars"></i></a></li>
+        </ul>
+    </header>
+
+    <section class="con">
+        <div>
+            <div class="hr">
+                <h1>Get in Touch</h1>
+                <hr>
+            </div>
+            <div class="offices">
+                <h3>You can always reach out to us</h3>
+                <div class="card first">
+                    <h4>Ghana</h4>
+                    <div class="info">
+                        <span class="q1">
+                            <p>Call Center</p>
+                            <ul>
+                                <li><a href="tel:233302250965">+233 302 250 965</a></li>
+                                <li><a href="tel:233302250976">+233 302 250 976</a></li>
+                            </ul>
+                        </span>
+                        <span class="q2">
+                            <p>Our Location</p>
+                            <ul>
+                                <li>No. 13, Behind Jonny K, Engineering Company, Bedzewahome Achimota ABC. Accra, Ghana.</li>
+                            </ul>
+                        </span>
+                        <span class="q3">
+                            <p>Email</p>
+                            <ul>
+                                <li><a href="mailto:info@panafields.com">info@panafields.com</a></li>
+                                <li><a href="mailto:rojelabi@panafields.com">rojelabi@panafields.com</a></li>
+                                <li><a href="mailto:jmensah@panafields.com">jmensah@panafields.com</a></li>
+                            </ul>
+                        </span>
+                        <span class="q4">
+                            <p>Social Network</p>
+                            <ul>
+                                <li><a href="https://www.linkedin.com/company/pan-african-field-services-limited/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="https://wa.me/2348033004552" target="_blank"><i class="fab fa-whatsapp-square"></i></a></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <button onclick="showMap()">show map</button>
+                    <p></p>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15882.386631020629!2d-0.2418215617620534!3d5.626405859673622!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s%20Bedzewahome%20Achimota%20ABC.%20Accra%2C%20Ghana.!5e0!3m2!1sen!2sng!4v1775128510446!5m2!1sen!2sng" 
+                        id="map"
+                        width="100" 
+                        height="100" 
+                        style="border:0;"
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="card second">
+                    <h4>Nigeria</h4>
+                    <div class="info">
+                        <span class="q1">
+                            <p>Call Center</p>
+                            <ul>
+                                <li><a href="tel:+2348037061272">+234 803 7061 272</a></li>
+                                <li><a href="tel:+2348033004552">+234 803 3004 552</a></li>
+                            </ul>
+                        </span>
+                        <span class="q2">
+                            <p>Our Location</p>
+                            <ul>
+                                <li>15, Ogunsiji Street, Off Allen Avenue, Ikeja, Lagos-Nigeria</li>
+                            </ul>
+                        </span>
+                        <span class="q3">
+                            <p>Email</p>
+                            <ul>
+                                <li><a href="mailto:info@panafields.com">info@panafields.com</a></li>
+                                <li><a href="mailto:rojelabi@panafields.com">rojelabi@panafields.com</a></li>
+                                <li><a href="mailto: malexander@panafields.com">malexander@panafields.com</a></li>
+                            </ul>
+                        </span>
+                        <span class="q4">
+                            <p>Social Network</p>
+                            <ul>
+                                <li><a href="https://www.linkedin.com/company/pan-african-field-services-limited/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="https://wa.me/2348033004552" target="_blank"><i class="fab fa-whatsapp-square"></i></a></li>
+                            </ul>
+                        </span>
+                    </div>
+                    <button onclick="showMap2()">show map</button>
+                    <p></p>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3963.3668908287223!2d3.3504340244107556!3d6.6012453433926215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sFolawiwo%20Street%2C%20Off%20Allen%20Avenue%2C%20Ikeja%2C%20Lagos-Nigeria!5e0!3m2!1sen!2sng!4v1775128608286!5m2!1sen!2sng" 
+                        id="map2"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        <form action="" id="contact-form" class="contact">
+            <p class="tact">Contact Us</p>
+            <div class="q1">
+                <p>Name</p>
+                <input type="text" id="name" name="name" placeholder="Your Name..." class="contact-inputs" required>
+            </div>
+            <div class="q2">
+                <p>Email</p>
+                <input type="email" id="email" name="email" placeholder="example@yourmail.com" class="contact-inputs" required>
+            </div>
+            <div class="q3">
+                <p>Subject</p>
+                <input type="text" id="title" name="text" placeholder="Title..." class="contact-inputs" required>
+            </div>
+            <div class="q4">
+                <p>Message</p>
+                <textarea id="message" name="message" placeholder="Type Here..." class="contact-inputs q5" required></textarea>
+            </div>
+            <div class="cf-turnstile contact-inputs q6" data-sitekey="0x4AAAAAAC1Uw3GnQrrc8Qms"></div>
+            <!-- Bot Trap Code -->
+            <input type="text" name="website" id="website" style="position:absolute; left:-9999px;" autocomplete="off">
+                <button type="submit"> Submit</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="content">
+            <img  loading="lazy" src="image/africa.webp" alt="A Map of Africa">
+            <div class="footer-content">
+                <h3 class="name">Panafields</h3>
+                <div class="links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li style="color: #e1c4ff;"><a href="">Contact Us</a></li>
+                    </ul> 
+                    <ul>
+                        <li><a href="about.html#mis">Our Mission</a></li>
+                        <li><a href="about.html#management">Our Management</a></li>
+                        <li><a href="index.html#client">Our Clients</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="about.html#vis">Our Vision</a></li>
+                        <li><a href="index.html#service">Services</a></li>
+                        <li><a href="about.html#reach">Countries</a></li>
+                    </ul>
+                </div>
+                <div class="socials">
+                    <a href="https://www.linkedin.com/company/pan-african-field-services-limited/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:info@panafields.com"><i class="far fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="right"> &copy; 2026 Pan African Field Services Limited. All Rights Reserved.</div>
+    </footer>
+    <script>
+emailjs.init("O36tGYSsch_6D37XK");
+
+const form = document.getElementById("contact-form");
+
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const token = document.querySelector(
+        "textarea[name='cf-turnstile-response']"
+    )?.value;
+
+    if (!token || token.trim() === "") {
+        alert("Please complete the captcha first.");
+        return;
+    }
+
+    try {
+        const verifyResponse = await fetch("/.netlify/functions/verifyCaptcha", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "cf-turnstile-response": token
+            })
+        });
+
+        const verifyResult = await verifyResponse.json();
+
+        if (!verifyResponse.ok) {
+            alert("Captcha verification failed.");
+            return;
+        }
+
+        await emailjs.sendForm(
+            "service_vb4oklp",
+            "template_4km6hlw",
+            form
+        );
+
+        alert("Message sent successfully!");
+        form.reset();
+
+    } catch (error) {
+        console.error("Submission error:", error);
+        alert("Something went wrong. Please try again.");
+    }
+});
+</script>
+</body>
+</html>

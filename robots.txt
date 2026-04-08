@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://panafields.com/sitemap.xml

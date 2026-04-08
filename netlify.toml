@@ -1,0 +1,33 @@
+# =========================
+# PANAFIELDS NETLIFY CONFIG
+# =========================
+
+# Security headers for all pages
+[[headers]]
+  for = "/*"
+  [headers.values]
+
+    # Force HTTPS for one year
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Prevent clickjacking
+    X-Frame-Options = "SAMEORIGIN"
+
+    # Prevent MIME-type sniffing
+    X-Content-Type-Options = "nosniff"
+
+    # Control referrer information
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Disable unnecessary browser permissions
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+    # Content Security Policy
+  Content-Security-Policy = "default-src 'self'; img-src 'self' https: data: https://maps.gstatic.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; script-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://challenges.cloudflare.com https://maps.googleapis.com 'unsafe-inline'; frame-src https://challenges.cloudflare.com https://www.google.com https://maps.google.com https://maps.google.com/maps; connect-src 'self' https://challenges.cloudflare.com https://api.emailjs.com https://cdn.jsdelivr.net;"
+
+# Optional: Redirect HTTP to HTTPS
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
