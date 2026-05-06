@@ -66,7 +66,164 @@
                 <a href="about.html"><button>Learn more</button></a>
                 <a href="contact.html#contact-form"><button>Request Field Work</button></a>
             </div>
+            <canvas id="canvas"></canvas>
     </section>
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+// ================= MOUSE =================
+let mouse = { x: 0, y: 0 };
+window.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+// ================= LOAD SVG =================
+async function loadSVG() {
+  const res = await fetch("africa.svg");
+  const text = await res.text();
+  const parser = new DOMParser();
+  const svg = parser.parseFromString(text, "image/svg+xml");
+  const pathEl = svg.querySelector("path");
+  return pathEl.getAttribute("d");
+}
+// ================= INIT =================
+async function init() {
+  const pathData = await loadSVG();
+  const path = new Path2D(pathData);
+  const off = document.createElement("canvas");
+  const offCtx = off.getContext("2d");
+  off.width = canvas.width;
+  off.height = canvas.height;
+  // ===== CENTER + SCALE =====
+  const tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const tempPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  tempPath.setAttribute("d", pathData);
+  tempSvg.appendChild(tempPath);
+  document.body.appendChild(tempSvg);
+  const bbox = tempPath.getBBox();
+  document.body.removeChild(tempSvg);
+  const scale = Math.min(
+    canvas.width / bbox.width,
+    canvas.height / bbox.height
+  ) * 0.65;
+  const offsetX = (canvas.width - bbox.width * scale) / 2;
+  const offsetY = (canvas.height - bbox.height * scale) / 2;
+  offCtx.setTransform(
+    scale, 0,
+    0, scale,
+    offsetX - bbox.x * scale,
+    offsetY - bbox.y * scale
+  );
+  offCtx.fillStyle = "white";
+  offCtx.fill(path);
+  // ===== EXTRACT POINTS (LESS DENSE) =====
+  const img = offCtx.getImageData(0, 0, off.width, off.height);
+  const data = img.data;
+  let points = [];
+  for (let y = 0; y < off.height; y += 10) {
+    for (let x = 0; x < off.width; x += 10) {
+      const i = (y * off.width + x) * 4;
+      if (data[i + 3] > 128) {
+        points.push({ x, y });
+      }
+    }
+  }
+  // ================= PARTICLE =================
+  class Particle {
+    constructor(p) {
+      this.baseX = p.x;
+      this.baseY = p.y;
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 2;
+      this.vy = (Math.random() - 0.5) * 2;
+      this.size = 1 + Math.random();
+    }
+    burst() {
+      // 🔥 Give strong outward velocity
+      this.vx = (Math.random() - 0.5) * 10;
+      this.vy = (Math.random() - 0.5) * 10;
+    }
+    update(phase, progress) {
+      if (phase === "float") {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+      }
+      if (phase === "form") {
+        const pull = 0.1 + progress * 0.1;
+        this.x += (this.baseX - this.x) * pull;
+        this.y += (this.baseY - this.y) * pull;
+      }
+      if (phase === "burst") {
+        this.x += this.vx;
+        this.y += this.vy;
+      }
+      // ===== SUBTLE MOUSE =====
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 120 && dist > 0) {
+        const force = (120 - dist) / 120 * 1.2;
+        this.x += (dx / dist) * force;
+        this.y += (dy / dist) * force;
+      }
+    }
+    draw(time) {
+      const glow = 0.3 + Math.sin(time * 0.002) * 0.3;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size + glow, 0, Math.PI * 2);
+      // 🔥 NEW COLOR
+      ctx.fillStyle = `rgba(183,81,73,${0.5 + glow * 0.3})`;
+      ctx.fill();
+    }
+  }
+  let particles = points.map(p => new Particle(p));
+  let start = Date.now();
+  // ================= TIMING =================
+  const floatTime = 3000;
+  const formTime = 6000;
+  const burstTime = 1000;
+  const totalTime = floatTime + formTime + burstTime;
+  let lastPhase = "float";
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const now = Date.now();
+    const elapsed = (now - start) % totalTime;
+    let phase = "float";
+    let progress = 0;
+    if (elapsed > floatTime && elapsed <= floatTime + formTime) {
+      phase = "form";
+      progress = (elapsed - floatTime) / formTime;
+    }
+    if (elapsed > floatTime + formTime) {
+      phase = "burst";
+    }
+    // 🔥 Trigger burst ONCE when phase changes
+    if (phase === "burst" && lastPhase !== "burst") {
+      particles.forEach(p => p.burst());
+    }
+    lastPhase = phase;
+    particles.forEach(p => {
+      p.update(phase, progress);
+      p.draw(now);
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+init();
+</script>
 
     <section class="we" id="we">
         <div class="count">
@@ -810,7 +967,6 @@
             </ul>
         </div>
     </section>
-
     <footer>
         <div class="content">
             <img class="map" loading="lazy" src="image/africa.webp" alt="outline of the map of Africa">

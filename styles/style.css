@@ -31,6 +31,7 @@ a {
 li {
   list-style-type: none;
 }
+canvas { position: absolute; top: 0; left: 0; }
 .hero {
   display: flex;
   flex-direction: column;
