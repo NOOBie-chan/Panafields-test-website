@@ -82,6 +82,7 @@ canvas { position: absolute; top: 0; left: 0; }
   animation: fadeUp 0.8s ease forwards;
   animation-delay: 1s;
   opacity: 0;
+  z-index: 100;
 }
 .hero .hero-btns a button:nth-child(1) {
   background-color: #c583ff;
